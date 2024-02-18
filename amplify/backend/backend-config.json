@@ -1,0 +1,22 @@
+{
+  "api": {
+    "rockstargraph": {
+      "dependsOn": [],
+      "output": {
+        "authConfig": {
+          "additionalAuthenticationProviders": [],
+          "defaultAuthentication": {
+            "apiKeyConfig": {
+              "apiKeyExpirationDate": "2024-02-24T23:30:54.637Z",
+              "apiKeyExpirationDays": 7,
+              "description": "myTestKey"
+            },
+            "authenticationType": "API_KEY"
+          }
+        }
+      },
+      "providerPlugin": "awscloudformation",
+      "service": "AppSync"
+    }
+  }
+}

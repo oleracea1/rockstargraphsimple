@@ -1,0 +1,20 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-rockstargraph-dev-12155-authRole",
+      "UnauthRoleArn": "arn:aws:iam::030760499811:role/amplify-rockstargraph-dev-12155-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::030760499811:role/amplify-rockstargraph-dev-12155-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-rockstargraph-dev-12155-deployment",
+      "UnauthRoleName": "amplify-rockstargraph-dev-12155-unauthRole",
+      "StackName": "amplify-rockstargraph-dev-12155",
+      "StackId": "arn:aws:cloudformation:us-east-1:030760499811:stack/amplify-rockstargraph-dev-12155/66d911e0-cc61-11ee-a302-12bf363b2859",
+      "AmplifyAppId": "d2hm3lr7gsyide"
+    },
+    "categories": {
+      "api": {
+        "rockstargraph": {}
+      }
+    }
+  }
+}
