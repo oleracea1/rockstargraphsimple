@@ -7,7 +7,6 @@
         <div v-for="artist in artists" :key="artist.id" :class="{ 'item': true, 'selected': artist === selectedArtist }" @click="selectArtist(artist)">
           <span>{{ artist.name }}</span>
           <button @click="deleteArtist(artist)">Delete</button>
-
         </div>
       </div>
       <div class="form">
@@ -46,52 +45,64 @@
         </div>
       </div>
     </div>
+    <!--IT-Rockstar Logo Fading Up-->
     <div class="logo-container">
       <img src="/itrlogo_transp_flo.png" alt="IT Rockstars Logo" class="logo" />
     </div>
   </div>
 </template>
 
-
 <script>
 import { Amplify } from 'aws-amplify';
 import { generateClient } from 'aws-amplify/api';
 import config from './src/amplifyconfiguration.json';
 
+// Configure Amplify with the provided configuration
 Amplify.configure(config);
 
+// Import our GraphQL Queries and Mutations
 import { createArtist, deleteArtist, createAlbum, createSong, deleteSong, deleteAlbum } from './src/graphql/mutations';
 import { listArtists, listAlbums, listSongs } from "./src/graphql/queries"
 
+// Generate GraphQL client
 const client = generateClient();
 
 export default {
   data() {
     return {
-      artists: [],
+      // Data properties
       newArtistName: '',
       newAlbumTitle: '',
       newSongTitle: '',
       selectedArtist: null,
       selectedAlbum: null,
-      albums: [],
+      artists: [], // Initialize the artists array
+      albums: [], // Initialize the albums array
       songs: [] // Initialize the songs array
     };
   },
+
   async created() {
+    // Fetch artists when the component is created
     await this.fetchArtists();
   },
+
   methods: {
+    // Method to fetch artists
     async fetchArtists() {
       try {
+        // Run the listArtists-Query to fetch all artists
         const result = await client.graphql({ query: listArtists });
         this.artists = result.data.listArtists.items;
       } catch (error) {
         console.error('Error fetching artists:', error);
       }
     },
+
+    // Method to create a new artist
     async createArtist() {
       try {
+        // Run the createArtist-Mutation to create a new artist
         const result = await client.graphql({
           query: createArtist,
           variables: {
@@ -102,11 +113,13 @@ export default {
         });
         console.log('New artist created:', result.data.createArtist);
         this.newArtistName = '';
-        await this.fetchArtists();
+        await this.fetchArtists(); // Fetch artists after creating a new one
       } catch (error) {
         console.error('Error creating artist:', error);
       }
     },
+
+    // Method to delete an artist
     async deleteArtist(artist) {
       try {
         await client.graphql({
@@ -118,11 +131,13 @@ export default {
           }
         });
         console.log('Artist deleted:', artist);
-        await this.fetchArtists();
+        await this.fetchArtists(); // Fetch artists after deleting one
       } catch (error) {
         console.error('Error deleting artist:', error);
       }
     },
+
+    // Method to add a new album
     async addAlbum() {
       try {
         const result = await client.graphql({
@@ -136,11 +151,13 @@ export default {
         });
         console.log('New album created:', result.data.createAlbum);
         this.newAlbumTitle = '';
-        await this.fetchAlbums();
+        await this.fetchAlbums(); // Fetch albums after adding a new one
       } catch (error) {
         console.error('Error creating album:', error);
       }
     },
+
+    // Method to add a new song
     async addSong() {
       try {
         if (!this.selectedAlbum) {
@@ -159,11 +176,13 @@ export default {
         });
         console.log('New song created:', result.data.createSong);
         this.newSongTitle = '';
-        await this.fetchSongs(); // Fetch songs after adding a new song
+        await this.fetchSongs(); // Fetch songs after adding a new one
       } catch (error) {
         console.error('Error creating song:', error);
       }
     },
+
+    // Method to delete an album
     async deleteAlbum(album) {
       try {
         await client.graphql({
@@ -175,11 +194,13 @@ export default {
           }
         });
         console.log('Album deleted:', album);
-        await this.fetchAlbums();
+        await this.fetchAlbums(); // Fetch albums after deleting one
       } catch (error) {
         console.error('Error deleting album:', error);
       }
     },
+
+    // Method to delete a song
     async deleteSong(song) {
       try {
         await client.graphql({
@@ -191,16 +212,20 @@ export default {
           }
         });
         console.log('Song deleted:', song);
-        await this.fetchSongs(); // Fetch songs after deleting a song
+        await this.fetchSongs(); // Fetch songs after deleting one
       } catch (error) {
         console.error('Error deleting song:', error);
       }
     },
+
+    // Method to select an artist
     selectArtist(artist) {
       this.selectedArtist = artist;
-      this.selectedAlbum = null;
-      this.fetchAlbums();
+      this.selectedAlbum = null; // Reset selected album
+      this.fetchAlbums(); // Fetch albums for the selected artist
     },
+
+    // Method to fetch albums for the selected artist
     async fetchAlbums() {
       try {
         const result = await client.graphql({
@@ -216,10 +241,14 @@ export default {
         console.error('Error fetching albums:', error);
       }
     },
+
+    // Method to select an album
     selectAlbum(album) {
       this.selectedAlbum = album;
-      this.fetchSongs();
+      this.fetchSongs(); // Fetch songs for the selected album
     },
+    
+    // Method to fetch songs for the selected album
     async fetchSongs() {
       try {
         const result = await client.graphql({
@@ -239,10 +268,8 @@ export default {
 };
 </script>
 
+
 <style scoped>
-
-
-
 .app {
   display: flex;
   flex-wrap: wrap;
@@ -302,17 +329,6 @@ export default {
   color: white;
   border: none;
   border-radius: 4px;
-  cursor: pointer;
-}
-
-.item {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 10px 20px;
-  background-color: #ffffff;
-  border-radius: 4px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   cursor: pointer;
 }
 

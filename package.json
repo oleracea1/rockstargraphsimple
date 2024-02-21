@@ -12,6 +12,7 @@
   "dependencies": {
     "aws-amplify": "^6.0.16",
     "nuxt": "^3.10.2",
+    "volar-service-vetur": "^0.0.30",
     "vue": "^3.4.19",
     "vue-router": "^4.2.5"
   }
